@@ -1,0 +1,14 @@
+<h2>Start a Journey</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Start Location:</label><br>
+  <input type="text" name="start" required><br><br>
+
+  <label>End Location:</label><br>
+  <input type="text" name="end" required><br><br>
+
+  <label>Stops (comma separated):</label><br>
+  <input type="text" name="stops"><br><br>
+
+  <button type="submit">Start Journey</button>
+</form>

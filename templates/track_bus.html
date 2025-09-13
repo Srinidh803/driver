@@ -1,0 +1,24 @@
+<h2>Tracking Bus: {{ journey.start_location }} → {{ journey.end_location }}</h2>
+<div id="map" style="height: 500px;"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script>
+var map = L.map("map").setView([0,0], 13);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+var marker = L.marker([0,0]).addTo(map);
+
+function updateBus() {
+    fetch("/bus/api/location/{{ journey.id }}/")
+      .then(res => res.json())
+      .then(data => {
+          if (data.latitude && data.longitude) {
+              marker.setLatLng([data.latitude, data.longitude]);
+              map.setView([data.latitude, data.longitude], 14);
+          }
+      });
+}
+setInterval(updateBus, 10000); // update every 10s
+updateBus();
+</script>

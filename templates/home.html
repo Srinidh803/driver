@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Bus Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0066cc;
+      color: #fff;
+      padding: 15px 30px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    .btn {
+      display: inline-block;
+      margin: 10px 5px;
+      padding: 12px 20px;
+      background: #0066cc;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      background: #004999;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome, {{ user.name }}</h1>
+    <p>{{ user.email }} | Role: {% if user.is_conductor %}Conductor{% else %}Passenger{% endif %}</p>
+    <a class="btn" href="{% url 'logout' %}">Logout</a>
+  </header>
+
+  <div class="container">
+
+    {% if user.is_conductor %}
+    <!-- Conductor options -->
+    <div class="card">
+      <h2>Conductor Dashboard</h2>
+      <p>You can start a new journey and share your bus location in real time.</p>
+      <a class="btn" href="{% url 'start_journey' %}">🚍 Start a Journey</a>
+      <!-- Example: dynamically replace journey_id -->
+      {% if user.journey_set.last %}
+      <a class="btn" href="{% url 'share_location' journey_id=user.journey_set.last.id %}">📍 Share Location</a>
+      {% endif %}
+    </div>
+
+    {% else %}
+    <!-- Passenger options -->
+    <div class="card">
+      <h2>Passenger Dashboard</h2>
+      <p>Search for a bus and track its live location.</p>
+      <form method="get" action="{% url 'track_bus' journey_id=0 %}">
+        <input type="text" name="bus" placeholder="Enter start or end location..." required>
+        <button type="submit" class="btn">🔍 Search Bus</button>
+      </form>
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<h2>Sharing Location...</h2>
+<p>Keep this page open to share your bus location.</p>
+
+<script>
+function sendLocation(position) {
+    fetch("", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+        body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
+    });
+}
+
+function errorHandler(err) {
+    console.error("Error getting location:", err);
+}
+
+setInterval(() => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocation, errorHandler);
+    }
+}, 10000); // every 10s
+</script>
