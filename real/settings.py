@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-vm0cpc7uve8nu$8d+9c88aj-&5khl$dkb5a@zu(3+(1q&g1y5)
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['real.onrender.com']
+ALLOWED_HOSTS = ["driver-w8jz.onrender.com", "localhost", "127.0.0.1"]
+
 
 
 # Application definition
